@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import { getProducts } from '@/actions/product';
 import Slider from '@/components/layout/slider';
 import { useAppDispatch, useAppSelector } from '@/store/hook';
+import Dresses from '@/components/layout/Dresses';
 
 const truncateDescription = (description: string, maxLength: number) => {
   if (description.length > maxLength) {
@@ -76,6 +77,7 @@ const HomePage = () => {
   return (
     <div className="bg-indigo-50">
       <Slider />
+      <Dresses/>
       <section className="body-font text-gray-600">
         <div className="container mx-auto px-5 py-10 flex flex-wrap justify-center">
           {renderProducts()}

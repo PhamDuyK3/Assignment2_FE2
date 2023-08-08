@@ -341,7 +341,7 @@ const ProductDetailPage = () => {
                       </svg>
                     </div>
                   </div>
-                  <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Thêm vào giỏ hàng</button>
+                  <button onClick={handleAddToCart} className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Thêm vào giỏ hàng</button>
 
                 </div>
               </div>
@@ -349,65 +349,28 @@ const ProductDetailPage = () => {
             <div className=" max-w-7xl mx-auto bg-transparent mt-8 p-6 rounded-lg shadow-lg">
               <h2 className="text-3xl font-semibold mb-4">Bình luận</h2>
 
-              {user && (
-            // <div className="flex items-center mb-4">
-            //   <div className="relative">
-            //     <img
-            //       className="w-10 h-10 object-cover rounded-full transition duration-300 transform hover:scale-110 cursor-pointer"
-            //       src={user.userimage}
-            //       alt="Avatar"
-            //     />
-            //     <div className="absolute bottom-0 right-0 p-1 bg-indigo-600 rounded-full">
-            //       <svg
-            //         className="w-3 h-3 text-white"
-            //         xmlns="http://www.w3.org/2000/svg"
-            //         viewBox="0 0 20 20"
-            //         fill="currentColor"
-            //       >
-            //         <path
-            //           fillRule="evenodd"
-            //           d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1.293-3.293a1 1 0 011.414-1.414 3 3 0 104.243-4.243 1 1 0 011.414-1.414 5 5 0 11-7.071 7.071z"
-            //           clipRule="evenodd"
-            //         />
-            //       </svg>
-            //     </div>
-            //   </div>
-            //   <div>
-            //     <p className="text-lg text-gray-800 font-semibold">{user.lastName}</p>
-            //   </div>
-            // </div>
-                <div className="flex justify-center relative top-1/3">
-                  
-                  <div className="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
-                    <div className="relative flex gap-4">
-                      <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png" className="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy" />
-                        <div className="flex flex-col w-full">
-                          <div className="flex flex-row justify-between">
-                            <p className="relative text-xl whitespace-nowrap truncate overflow-hidden">COMMENTOR</p>
-                            <a className="text-gray-500 text-xl" href="#"><i className="fa-solid fa-trash"></i></a>
-                          </div>
-                          <p className="text-gray-400 text-sm">20 April 2022, at 14:88 PM</p>
-                        </div>
-                    </div>
-                    <p className="-mt-4 text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. <br/>Maxime quisquam vero adipisci beatae voluptas dolor ame.</p>
-                  </div>
 
-
-
-                </div>
-          )}
               {/* Hiển thị danh sách bình luận */}
               {Array.isArray(currentComments) && currentComments.length > 0 ? (
                 currentComments.map((comment, index) => (
-                  <div key={index} className="bg-white p-4 rounded-lg shadow-md mb-4">
-                    <div className="flex items-center mb-4">
-                      <img className="w-10 h-10 object-cover rounded-full mr-4" src={comment.image} alt="Avatar" />
-                      <div>
-                        <p className="text-lg text-gray-800 font-semibold">{comment.username}</p>
-                        <p className="text-sm text-gray-500">{comment.date}</p>
+                  <div key={index} className="flex pt-7  relative top-1/3">
+
+                    <div className="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
+                      <div className="relative flex gap-4">
+                        <img src={comment.image} className="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy" />
+                        <div className="flex flex-col w-full">
+                          <div className="flex flex-row justify-between">
+                            <p className="relative text-xl whitespace-nowrap truncate overflow-hidden">{comment.username}</p>
+                            <a className="text-gray-500 text-xl" href="#"><i className="fa-solid fa-trash"></i></a>
+                          </div>
+                          <p className="text-gray-400 text-sm">{comment.date}</p>
+                        </div>
                       </div>
+                      <p className="  text-gray-500">{comment.content}</p>
                     </div>
-                    <p className="text-lg text-gray-800">{comment.content}</p>
+
+
+
                   </div>
                 ))
               ) : (
@@ -464,55 +427,28 @@ const ProductDetailPage = () => {
                 </div>
               )}
             </div>
-            <div className="mt-8 pb-5">
-              <h2 className="text-2xl font-bold mb-4">Sản phẩm liên quan</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {relatedProducts.map((product) => (
-                  <div
-                    key={product.id}
-                    className="bg-white rounded-lg shadow-md p-4 transition duration-300 transform hover:scale-105"
-                  >
-                    <img
-                      src={product.image}
-                      alt={"Related Image" + product.id}
-                      className="w-full h-40 object-cover mb-4 rounded-lg"
-                    />
-                    <h3 className="mb-2 text-lg font-medium dark:text-white text-gray-900">
-                      {truncateName(product.name, 50)}
-                    </h3>
-                    <p className="text-gray-500 text-sm">
-                      Loại{" "}
-                      <Link
-                        to={`/category/${product.category}`}
-                        className="text-indigo-600 hover:underline"
-                      >
-                        {product.category}
-                      </Link>
-                    </p>
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-indigo-400 mt-1">$</span>
-                        <span className="font-bold text-indigo-600 text-xl">
-                          {product.price}
-                        </span>
-                      </div>
-                      {product.discount && (
-                        <div className="bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-semibold">
-                          Giảm {product.discount}%
-                        </div>
-                      )}
+            <div className="flex mr-10">
+            {relatedProducts.map((product) => (
+              <div key={product.id}
+                className="bg-white mr-10 mt-10 rounded-lg shadow-md p-4 transition duration-300 transform hover:scale-105">
+               <Link to={`/products/${product.id}`}>
+               <div className=" mt-11 w-80 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md duration-300 hover:scale-105 hover:shadow-lg">
+                  <img className="h-48 w-full object-cover object-center" src={product.image} alt="Product Image" />
+                  <div className="p-4">
+                    <h2 className="mb-2 text-lg font-medium dark:text-white text-gray-900">{product.name}</h2>
+                    <p className="mb-2 text-base dark:text-gray-300 text-gray-700">{product.description}</p>
+                    <div className="flex items-center">
+                      <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">{product.price}</p>
+                      <p className="text-base  font-medium text-gray-500 line-through dark:text-gray-300">{product.originalPrice}</p>
+                      <p className="ml-auto text-base font-medium text-green-500">{product.discount}%</p>
                     </div>
-                    <Link to={`/products/${product.id}`}>
-                      <button className="mt-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-4 py-2 w-full">
-                        Xem chi tiết
-                      </button>
-                    </Link>
                   </div>
-                ))}
+                </div>
+               </Link>
               </div>
+            ))}
             </div>
           </div>
-
         </section>
       </div>
     </div>

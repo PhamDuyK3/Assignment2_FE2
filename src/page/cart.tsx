@@ -12,43 +12,36 @@ const CartPage = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-100 pt-20">
-      <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
-      <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
-        <div className="rounded-lg md:w-2/3">
-          {cartItems.map((item) => (
-            <div key={item.id} className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-              <img src={item.image} alt={`Product ${item.name}`} className="w-full rounded-lg sm:w-40" />
-              <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                <div className="mt-5 sm:mt-0">
-                  <h2 className="text-lg font-bold text-gray-900">{item.name}</h2>
-                  <p className="mt-1 text-xs text-gray-700">{item.size}</p>
-                </div>
-                <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-                  <div className="flex items-center border-gray-100">
-                    <button
-                      className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                      onClick={() => dispatch(decrease(item.id))}
-                    >
-                      -
-                    </button>
-                    <input
-                      className="h-8 w-8 border bg-white text-center text-xs outline-none"
-                      type="number"
-                      value={item.quantity}
-                      min="1"
-                      readOnly
-                    />
-                    <button
-                      className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
-                      onClick={() => dispatch(increase(item.id))}
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <p className="text-sm">{item.price} ₭</p>
-                    <svg
+<div>
+<div className="flex flex-col md:flex-row w-screen h-full px-14 py-7">
+
+ 
+<div className="w-full flex flex-col h-fit gap-4 p-4 ">
+    <p className="text-blue-900 text-xl font-extrabold">My cart</p>
+
+  
+    {cartItems.map((item) => (
+      <div key={item.id}  className="flex flex-col p-4 text-lg font-semibold shadow-md border rounded-sm">
+      <div className="flex flex-col md:flex-row gap-3 justify-between">
+ 
+          <div className="flex flex-row gap-6 items-center">
+              <div className="w-28 h-28">
+                  <img className="w-full h-full" src={item.image}/>
+              </div>
+              <div className="flex flex-col gap-1">
+                  <p className="text-lg text-gray-800 font-semibold">{item.name}</p>
+                  <p className="text-xs text-gray-600 font-semibold">Loại: <span className="font-normal">{item.category}</span></p>
+                  <p className="text-xs text-gray-600 font-semibold">Size: <span className="font-normal">{item.size}</span></p>
+              </div>
+          </div>
+       
+          <div className="self-center text-center">
+              <p className="text-gray-800 font-normal text-xl">{item.price}</p>
+          </div>
+       
+          <div className="self-center">
+              <button className="">
+              <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -59,30 +52,63 @@ const CartPage = () => {
                     >
                       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* Sub total */}
-        <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
-          {/* <div className="mb-2 flex justify-between">
-            <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">${calculateTotalPrice()}</p>
-          </div> */}
-          <hr className="my-4" />
-          <div className="flex justify-between">
-            <p className="text-lg font-bold">Tổng</p>
-            <div className="">
-              <p className="mb-1 text-lg font-bold">${calculateTotalPrice()} </p>
-            </div>
+              </button>
           </div>
-          <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">Thanh Toán</button>
-        </div>
       </div>
+      <div className="flex flex-row self-center gap-1">
+          <button onClick={() => dispatch(decrease(item.id))} className="w-5 h-5 self-center rounded-full border border-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14" />
+              </svg>
+          </button>
+          <input type="number" min={1}  value={item.quantity} className="w-8 h-8 text-center text-gray-900 text-sm outline-none border border-gray-300 rounded-sm"/>
+          <button onClick={() => dispatch(increase(item.id))} className="w-5 h-5 self-center rounded-full border border-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 5v14M5 12h14" />
+              </svg>
+          </button>
+      </div>
+  </div>
+    ))}
+</div>
+
+<div className="flex flex-col w-full md:w-2/3 h-fit gap-4 p-4">
+    <p className="text-blue-900 text-xl font-extrabold">Purchase Resume</p>
+    <div className="flex flex-col p-4 gap-4 text-lg font-semibold shadow-md border rounded-sm">
+        <div className="flex flex-row justify-between">
+            <p className="text-gray-600">Subtotal (2 Items)</p>
+            <p className="text-end font-bold">${calculateTotalPrice()}</p>
+        </div>
+      
+       
+        <hr className="bg-gray-200 h-0.5"/>
+        <div className="flex flex-row justify-between">
+            <p className="text-gray-600">Discount Coupon</p>
+            <a className="text-gray-500 text-base underline" href="#">Add</a>
+        </div>
+        <hr className="bg-gray-200 h-0.5"/>
+        <div className="flex flex-row justify-between">
+            <p className="text-gray-600">Total</p>
+            <div>
+            <p className="text-end font-bold">${calculateTotalPrice()}</p>
+            </div>
+        </div>
+        <div className="flex gap-2">
+            <button className="transition-colors text-sm bg-blue-600 hover:bg-blue-700 p-2 rounded-sm w-full text-white text-hover shadow-md">
+                    FINISH  
+            </button>
+            <button className="transition-colors text-sm bg-white border border-gray-600 p-2 rounded-sm w-full text-gray-700 text-hover shadow-md">
+                    ADD MORE PRODUCTS
+            </button>
+        </div>
     </div>
+</div>
+</div>
+</div>
   );
 };
 
 export default CartPage;
+
+
+

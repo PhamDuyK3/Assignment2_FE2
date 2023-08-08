@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useLocalStorage } from '@/hook';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const { handleSubmit, register, formState: { errors } } = useForm();
-  // const navigate = useNavigate();
   const [user, setUser] = useLocalStorage("user", null)
   const [loginError, setLoginError] = useState('');
   const { loading, error } = useSelector((state: any) => state.auth);
@@ -29,128 +29,421 @@ const SignIn = () => {
 
 
   return (
-    <div>
-      <section className="bg-white bg-gradient-to-r from-gray-100 via-[#bce1ff] to-gray-100">
-        <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-          <section
-            className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6"
-          >
-            <img
-              alt="Night"
-              src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-              className="absolute inset-0 h-full w-full object-cover opacity-80"
-            />
+    <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-6">
+      <section className="bg-[#F4F7FF] py-20 lg:py-[120px]">
+        <div className="container">
+          <div className="flex flex-wrap -mx-4">
+            <div className="w-full px-4">
+              <div
+                className="
+               max-w-[525px]
+               mx-auto
+               text-center
+               bg-white
+               rounded-lg
+               relative
+               overflow-hidden
+               py-16
+               px-10
+               sm:px-12
+               md:px-[60px]
+               "
+              >
+                <div className="mb-10 md:mb-16 text-center">
+                  <a
+                    href="javascript:void(0)"
+                    className="inline-block max-w-[160px] mx-auto"
+                  >
+                    <img src="https://cdn.tailgrids.com/1.0/assets/images/logo/logo.svg" alt="logo" />
+                  </a>
+                </div>
 
-            <div className="hidden lg:relative lg:block lg:p-12">
-              <a className="block text-white" href="/">
-                <span className="sr-only">Home</span>
-                <svg
-                  className="h-8 sm:h-10"
-                  viewBox="0 0 28 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.41 10.3847C1.14777 7.4194 2.85643 4.7861 5.2639 2.90424C7.6714 1.02234 10.6393 0 13.695 0C16.7507 0 19.7186 1.02234 22.1261 2.90424C24.5336 4.7861 26.2422 7.4194 26.98 10.3847H25.78C23.7557 10.3549 21.7729 10.9599 20.11 12.1147C20.014 12.1842 19.9138 12.2477 19.81 12.3047H19.67C19.5662 12.2477 19.466 12.1842 19.37 12.1147C17.6924 10.9866 15.7166 10.3841 13.695 10.3841C11.6734 10.3841 9.6976 10.9866 8.02 12.1147C7.924 12.1842 7.8238 12.2477 7.72 12.3047H7.58C7.4762 12.2477 7.376 12.1842 7.28 12.1147C5.6171 10.9599 3.6343 10.3549 1.61 10.3847H0.41ZM23.62 16.6547C24.236 16.175 24.9995 15.924 25.78 15.9447H27.39V12.7347H25.78C24.4052 12.7181 23.0619 13.146 21.95 13.9547C21.3243 14.416 20.5674 14.6649 19.79 14.6649C19.0126 14.6649 18.2557 14.416 17.63 13.9547C16.4899 13.1611 15.1341 12.7356 13.745 12.7356C12.3559 12.7356 11.0001 13.1611 9.86 13.9547C9.2343 14.416 8.4774 14.6649 7.7 14.6649C6.9226 14.6649 6.1657 14.416 5.54 13.9547C4.4144 13.1356 3.0518 12.7072 1.66 12.7347H0V15.9447H1.61C2.39051 15.924 3.154 16.175 3.77 16.6547C4.908 17.4489 6.2623 17.8747 7.65 17.8747C9.0377 17.8747 10.392 17.4489 11.53 16.6547C12.1468 16.1765 12.9097 15.9257 13.69 15.9447C14.4708 15.9223 15.2348 16.1735 15.85 16.6547C16.9901 17.4484 18.3459 17.8738 19.735 17.8738C21.1241 17.8738 22.4799 17.4484 23.62 16.6547ZM23.62 22.3947C24.236 21.915 24.9995 21.664 25.78 21.6847H27.39V18.4747H25.78C24.4052 18.4581 23.0619 18.886 21.95 19.6947C21.3243 20.156 20.5674 20.4049 19.79 20.4049C19.0126 20.4049 18.2557 20.156 17.63 19.6947C16.4899 18.9011 15.1341 18.4757 13.745 18.4757C12.3559 18.4757 11.0001 18.9011 9.86 19.6947C9.2343 20.156 8.4774 20.4049 7.7 20.4049C6.9226 20.4049 6.1657 20.156 5.54 19.6947C4.4144 18.8757 3.0518 18.4472 1.66 18.4747H0V21.6847H1.61C2.39051 21.664 3.154 21.915 3.77 22.3947C4.908 23.1889 6.2623 23.6147 7.65 23.6147C9.0377 23.6147 10.392 23.1889 11.53 22.3947C12.1468 21.9165 12.9097 21.6657 13.69 21.6847C14.4708 21.6623 15.2348 21.9135 15.85 22.3947C16.9901 23.1884 18.3459 23.6138 19.735 23.6138C21.1241 23.6138 22.4799 23.1884 23.62 22.3947Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </a>
-
-              <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-                Welcome to Squid 🦑
-              </h2>
-
-              <p className="mt-4 leading-relaxed text-white/90">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi nam
-                dolorum aliquam, quibusdam aperiam voluptatum.
-              </p>
-            </div>
-          </section>
-
-          <main
-            className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
-          >
-
-            <div className="max-w-xl lg:max-w-3xl">
-              <div className="relative -mt-16 block lg:hidden">
-                {/* Mã HTML cho phần này */}
-              </div>
-              <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 gap-6">
-                <div className="mb-4">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email:
-                  </label>
+                <div className="mb-6">
                   <input
                     type="email"
                     id="email"
                     name="email"
                     {...register('email', { required: 'Vui lòng nhập email' })}
-                    placeholder='email'
-                    className="mt-1 p-3 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    placeholder="Email"
+                    className="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        "
                   />
                   {errors.email && <p className="text-red-600">{errors.email.message}</p>}
                 </div>
-                <div className="mb-4">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                    Mật khẩu:
-                  </label>
+                <div className="mb-6">
                   <input
                     type="password"
                     id="password"
-                    placeholder='password'
                     name="password"
                     {...register('password', { required: 'Vui lòng nhập mật khẩu' })}
-                    className="mt-1 p-3 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    placeholder="Password"
+                    className="
+                        w-full
+                        rounded-md
+                        border
+                        bordder-[#E9EDF4]
+                        py-3
+                        px-5
+                        bg-[#FCFDFE]
+                        text-base text-body-color
+                        placeholder-[#ACB6BE]
+                        outline-none
+                        focus-visible:shadow-none
+                        focus:border-primary
+                        "
                   />
                   {errors.password && <p className="text-red-600">{errors.password.message}</p>}
                 </div>
-                <div>
-                  <label htmlFor="marketingAccept" className="flex items-center">
-                    <input
-                      type="checkbox"
-                      id="marketingAccept"
-                      name="marketingAccept"
-                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    />
-                    <span className="ml-2 text-sm text-gray-600">
-                      Tôi muốn nhận email về các sự kiện, cập nhật sản phẩm và thông báo của công ty.
-                    </span>
-                  </label>
-                </div>
                 <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-opacity-50"
+            type="submit"
+            disabled={loading}
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+          </button>
+                <p className="text-base mb-6 text-[#adadad]">Connect With</p>
+                <ul className="flex justify-between -mx-2 mb-12">
+                  <li className="px-2 w-full">
+                    <a
+                      href="javascript:void(0)"
+                      className="
+                        flex
+                        h-11
+                        items-center
+                        justify-center
+                        rounded-md
+                        bg-[#4064AC]
+                        hover:bg-opacity-90
+                        "
+                    >
+                      <svg
+                        width="10"
+                        height="20"
+                        viewBox="0 0 10 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M9.29878 8H7.74898H7.19548V7.35484V5.35484V4.70968H7.74898H8.91133C9.21575 4.70968 9.46483 4.45161 9.46483 4.06452V0.645161C9.46483 0.290323 9.24343 0 8.91133 0H6.89106C4.70474 0 3.18262 1.80645 3.18262 4.48387V7.29032V7.93548H2.62912H0.747223C0.359774 7.93548 0 8.29032 0 8.80645V11.129C0 11.5806 0.304424 12 0.747223 12H2.57377H3.12727V12.6452V19.129C3.12727 19.5806 3.43169 20 3.87449 20H6.47593C6.64198 20 6.78036 19.9032 6.89106 19.7742C7.00176 19.6452 7.08478 19.4194 7.08478 19.2258V12.6774V12.0323H7.66596H8.91133C9.2711 12.0323 9.54785 11.7742 9.6032 11.3871V11.3548V11.3226L9.99065 9.09677C10.0183 8.87097 9.99065 8.6129 9.8246 8.35484C9.76925 8.19355 9.52018 8.03226 9.29878 8Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li className="px-2 w-full">
+                    <a
+                      href="javascript:void(0)"
+                      className="
+                        flex
+                        h-11
+                        items-center
+                        justify-center
+                        rounded-md
+                        bg-[#1C9CEA]
+                        hover:bg-opacity-90
+                        "
+                    >
+                      <svg
+                        width="22"
+                        height="16"
+                        viewBox="0 0 22 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M19.5516 2.75538L20.9 1.25245C21.2903 0.845401 21.3968 0.53229 21.4323 0.375734C20.3677 0.939335 19.3742 1.1272 18.7355 1.1272H18.4871L18.3452 1.00196C17.4935 0.344423 16.429 0 15.2935 0C12.8097 0 10.8581 1.81605 10.8581 3.91389C10.8581 4.03914 10.8581 4.22701 10.8935 4.35225L11 4.97847L10.2548 4.94716C5.7129 4.82192 1.9871 1.37769 1.38387 0.782779C0.390323 2.34834 0.958064 3.85127 1.56129 4.79061L2.76774 6.54403L0.851613 5.6047C0.887097 6.91977 1.45484 7.95303 2.55484 8.7045L3.5129 9.33072L2.55484 9.67515C3.15806 11.272 4.50645 11.9296 5.5 12.18L6.8129 12.4932L5.57097 13.2446C3.58387 14.4971 1.1 14.4031 0 14.3092C2.23548 15.6869 4.89677 16 6.74194 16C8.12581 16 9.15484 15.8748 9.40322 15.7808C19.3387 13.7143 19.8 5.8865 19.8 4.32094V4.10176L20.0129 3.97652C21.2194 2.97456 21.7161 2.44227 22 2.12916C21.8935 2.16047 21.7516 2.22309 21.6097 2.2544L19.5516 2.75538Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li className="px-2 w-full">
+                    <a
+                      href="javascript:void(0)"
+                      className="
+                        flex
+                        h-11
+                        items-center
+                        justify-center
+                        rounded-md
+                        bg-[#D64937]
+                        hover:bg-opacity-90
+                        "
+                    >
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M17.8477 8.17132H9.29628V10.643H15.4342C15.1065 14.0743 12.2461 15.5574 9.47506 15.5574C5.95916 15.5574 2.8306 12.8821 2.8306 9.01461C2.8306 5.29251 5.81018 2.47185 9.47506 2.47185C12.2759 2.47185 13.9742 4.24567 13.9742 4.24567L15.7024 2.47185C15.7024 2.47185 13.3783 0.000145544 9.35587 0.000145544C4.05223 -0.0289334 0 4.30383 0 8.98553C0 13.5218 3.81386 18 9.44526 18C14.4212 18 17.9967 14.7141 17.9967 9.79974C18.0264 8.78198 17.8477 8.17132 17.8477 8.17132Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <a
+                  href="javascript:void(0)"
+                  className="
+                  text-base
+                  inline-block
+                  mb-2
+                  text-[#adadad]
+                  hover:underline hover:text-primary
+                  "
                 >
-                  {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
-                </button>
-                {/* {loginError && <p className="text-red-600">{loginError}</p>}
-                {error && <p className="mt-2 text-red-600">{error}</p>} */}
-
-                {user ? (
-                  
-                <div className="text-green-500">
-                <p>
-                  Đăng nhập thành công! Chào mừng {user?.firstName} {user?.lastName}!
+                  Forget Password?
+                </a>
+                <p className="text-base text-[#adadad]">
+                  Not a member yet?
+                  <a
+                    href="./signup"
+                    className="text-primary hover:underline"
+                  >
+                    Sign Up
+                  </a>
                 </p>
-              </div>
-                ) : (
-                  <div>
-                  {loginError && <p className="text-red-600">{loginError}</p>}
-                  {error && <p className="mt-2 text-red-600">{error}</p>}
+                <div>
+                  <span className="absolute top-1 right-1">
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="1.39737"
+                        cy="38.6026"
+                        r="1.39737"
+                        transform="rotate(-90 1.39737 38.6026)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="1.39737"
+                        cy="1.99122"
+                        r="1.39737"
+                        transform="rotate(-90 1.39737 1.99122)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="13.6943"
+                        cy="38.6026"
+                        r="1.39737"
+                        transform="rotate(-90 13.6943 38.6026)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="13.6943"
+                        cy="1.99122"
+                        r="1.39737"
+                        transform="rotate(-90 13.6943 1.99122)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="25.9911"
+                        cy="38.6026"
+                        r="1.39737"
+                        transform="rotate(-90 25.9911 38.6026)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="25.9911"
+                        cy="1.99122"
+                        r="1.39737"
+                        transform="rotate(-90 25.9911 1.99122)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="38.288"
+                        cy="38.6026"
+                        r="1.39737"
+                        transform="rotate(-90 38.288 38.6026)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="38.288"
+                        cy="1.99122"
+                        r="1.39737"
+                        transform="rotate(-90 38.288 1.99122)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="1.39737"
+                        cy="26.3057"
+                        r="1.39737"
+                        transform="rotate(-90 1.39737 26.3057)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="13.6943"
+                        cy="26.3057"
+                        r="1.39737"
+                        transform="rotate(-90 13.6943 26.3057)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="25.9911"
+                        cy="26.3057"
+                        r="1.39737"
+                        transform="rotate(-90 25.9911 26.3057)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="38.288"
+                        cy="26.3057"
+                        r="1.39737"
+                        transform="rotate(-90 38.288 26.3057)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="1.39737"
+                        cy="14.0086"
+                        r="1.39737"
+                        transform="rotate(-90 1.39737 14.0086)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="13.6943"
+                        cy="14.0086"
+                        r="1.39737"
+                        transform="rotate(-90 13.6943 14.0086)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="25.9911"
+                        cy="14.0086"
+                        r="1.39737"
+                        transform="rotate(-90 25.9911 14.0086)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="38.288"
+                        cy="14.0086"
+                        r="1.39737"
+                        transform="rotate(-90 38.288 14.0086)"
+                        fill="#3056D3"
+                      />
+                    </svg>
+                  </span>
+                  <span className="absolute left-1 bottom-1">
+                    <svg
+                      width="29"
+                      height="40"
+                      viewBox="0 0 29 40"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="2.288"
+                        cy="25.9912"
+                        r="1.39737"
+                        transform="rotate(-90 2.288 25.9912)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="14.5849"
+                        cy="25.9911"
+                        r="1.39737"
+                        transform="rotate(-90 14.5849 25.9911)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="26.7216"
+                        cy="25.9911"
+                        r="1.39737"
+                        transform="rotate(-90 26.7216 25.9911)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="2.288"
+                        cy="13.6944"
+                        r="1.39737"
+                        transform="rotate(-90 2.288 13.6944)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="14.5849"
+                        cy="13.6943"
+                        r="1.39737"
+                        transform="rotate(-90 14.5849 13.6943)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="26.7216"
+                        cy="13.6943"
+                        r="1.39737"
+                        transform="rotate(-90 26.7216 13.6943)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="2.288"
+                        cy="38.0087"
+                        r="1.39737"
+                        transform="rotate(-90 2.288 38.0087)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="2.288"
+                        cy="1.39739"
+                        r="1.39737"
+                        transform="rotate(-90 2.288 1.39739)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="14.5849"
+                        cy="38.0089"
+                        r="1.39737"
+                        transform="rotate(-90 14.5849 38.0089)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="26.7216"
+                        cy="38.0089"
+                        r="1.39737"
+                        transform="rotate(-90 26.7216 38.0089)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="14.5849"
+                        cy="1.39761"
+                        r="1.39737"
+                        transform="rotate(-90 14.5849 1.39761)"
+                        fill="#3056D3"
+                      />
+                      <circle
+                        cx="26.7216"
+                        cy="1.39761"
+                        r="1.39737"
+                        transform="rotate(-90 26.7216 1.39761)"
+                        fill="#3056D3"
+                      />
+                    </svg>
+                  </span>
                 </div>
-                )}
-                <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-                  Bạn chưa có tài khoản?
-                  <a href="signup" className="text-gray-700 underline"> Đăng ký</a>.
-                </p>
-              </form>
+              </div>
             </div>
-          </main>
+          </div>
         </div>
+
       </section>
-    </div>
+    </form>
+
   );
 };
 

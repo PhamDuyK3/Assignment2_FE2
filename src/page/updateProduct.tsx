@@ -98,10 +98,10 @@ const UpdateProduct = () => {
   }, [id, products]);
 
   return (
-    <div className="relative flex min-h-screen text-gray-800 bg-gradient-to-r from-gray-100 via-[#bce1ff] to-gray-100 antialiased flex-col justify-center overflow-hidden bg-red-50 py-6 sm:py-12">
-      <div className="relative py-3 sm:w-96 mx-auto text-center">
+    <div className="relative flex min-h-screen text-gray-800  antialiased flex-col justify-center overflow-hidden  py-6 sm:py-12">
+      <div className="relative py-3   text-center">
         <span className="text-2xl font-black">Cập nhật sản phẩm</span>
-        <form className="mt-4 bg-blue-100 shadow-md rounded-lg text-left px-8 py-6">
+        <form className="mt-4 shadow-md rounded-lg text-left px-8 py-6">
           <div className="form-group">
             <label htmlFor="name" className="block font-semibold text-gray-700">
               Tên sản phẩm:
